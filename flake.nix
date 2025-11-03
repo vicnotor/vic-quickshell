@@ -24,13 +24,13 @@
     packages = forEachSupportedSystem ({pkgs}: rec {
       my-quickshell = pkgs.callPackage ./default.nix {
         rev = self.rev or self.dirtyRev;
-        quickshell = inputs.quickshell.packages.${pkgs.system}.default;
+        quickshell = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
       };
       default = my-quickshell;
     });
 
     devShells = forEachSupportedSystem ({pkgs}: let
-      shell = self.packages.${pkgs.system}.default;
+      shell = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
       run-my-quickshell-from-here = pkgs.writeShellScriptBin "run-my-quickshell-from-here" ''
         qs -p src
       '';
@@ -40,7 +40,7 @@
         {
           inputsFrom = [shell];
           packages = with pkgs; [
-            inputs.quickshell.packages.${pkgs.system}.default
+            inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default
             kdePackages.qtdeclarative # Contains qmlls and qmllint
             run-my-quickshell-from-here
           ];
