@@ -1,5 +1,5 @@
 {
-  description = "My Quickshell flake";
+  description = "Vic's Quickshell flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
@@ -22,16 +22,16 @@
         });
   in {
     packages = forEachSupportedSystem ({pkgs}: rec {
-      my-quickshell = pkgs.callPackage ./default.nix {
+      vic-quickshell = pkgs.callPackage ./default.nix {
         rev = self.rev or self.dirtyRev;
         quickshell = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
       };
-      default = my-quickshell;
+      default = vic-quickshell;
     });
 
     devShells = forEachSupportedSystem ({pkgs}: let
       shell = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
-      run-my-quickshell-from-here = pkgs.writeShellScriptBin "run-my-quickshell-from-here" ''
+      run-vic-quickshell-from-here = pkgs.writeShellScriptBin "run-vic-quickshell-from-here" ''
         qs -p src
       '';
     in {
@@ -42,7 +42,7 @@
           packages = with pkgs; [
             inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default
             kdePackages.qtdeclarative # Contains qmlls and qmllint
-            run-my-quickshell-from-here
+            run-vic-quickshell-from-here
           ];
         };
     });

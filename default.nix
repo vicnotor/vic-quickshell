@@ -6,7 +6,7 @@
   quickshell,
 }:
 stdenv.mkDerivation {
-  pname = "my-quickshell";
+  pname = "vic-quickshell";
   version = "${rev}";
   src = ./src;
 
@@ -18,14 +18,14 @@ stdenv.mkDerivation {
   '';
 
   installPhase = ''
-    makeWrapper ${quickshell}/bin/qs $out/bin/my-quickshell \
+    makeWrapper ${quickshell}/bin/qs $out/bin/vic-quickshell \
     	--add-flags '-p ${./src}'
   '';
 
   meta = {
-    description = "My Quickshell ";
-    homepage = "https://github.com/vicnotor/my-quickshell";
+    description = "Vic's Quickshell";
+    homepage = "https://github.com/vicnotor/vic-quickshell";
     license = lib.licenses.gpl3;
-    mainProgram = "my-quickshell";
+    mainProgram = "vic-quickshell";
   };
 }
